@@ -1,0 +1,41 @@
+# Posts comments as yang-supervisor[bot] (GitHub App avatar/name)
+# instead of github-actions[bot].
+#
+# Prerequisites:
+# 1. Create/install the yang-supervisor GitHub App on the org/repo
+# 2. Repo secrets:
+#    - YANG_SUPERVISOR_APP_ID
+#    - YANG_SUPERVISOR_APP_PRIVATE_KEY
+#    - YANG_API_TOKEN (or YANG_API_KEY) for the yangyang provider
+
+name: Yang Supervisor Agent (YSA)
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened, reopened]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  supervise:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Mint yang-supervisor app token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.YANG_SUPERVISOR_APP_ID }}
+          private-key: ${{ secrets.YANG_SUPERVISOR_APP_PRIVATE_KEY }}
+
+      - name: yang-supervisor
+        uses: YangYang-Research/yang-supervisor@v0.1.0
+        with:
+          PROVIDER: yangyang
+          API_KEY: ${{ secrets.YANG_API_TOKEN }}
+          MODEL_NAME: auto
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}

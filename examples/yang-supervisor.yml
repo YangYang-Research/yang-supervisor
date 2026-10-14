@@ -1,4 +1,4 @@
-name: Yang Supervisor Agent
+name: Yang Supervisor Agent (YSA)
 
 on:
   issues:
@@ -15,10 +15,20 @@ jobs:
   supervise:
     runs-on: ubuntu-24.04
     steps:
+      # Optional: mint GitHub App token so comments post as yang-supervisor[bot]
+      # instead of github-actions[bot]. Requires YANG_SUPERVISOR_APP_ID +
+      # YANG_SUPERVISOR_APP_PRIVATE_KEY. See yang-supervisor-branded.yml.
+      - name: Mint yang-supervisor app token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.YANG_SUPERVISOR_APP_ID }}
+          private-key: ${{ secrets.YANG_SUPERVISOR_APP_PRIVATE_KEY }}
+
       - name: yang-supervisor
         uses: YangYang-Research/yang-supervisor@v0.1.0
         with:
           PROVIDER: yangyang
-          API_KEY: ${{ secrets.YANG_API_KEY }}
+          API_KEY: ${{ secrets.YANG_API_TOKEN }}
           MODEL_NAME: auto
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}

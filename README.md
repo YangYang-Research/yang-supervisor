@@ -96,7 +96,15 @@ Provider base URLs are hardcoded in the action:
 
 ## 📦 Usage example
 
-Create `.github/workflows/yang-supervisor.yml`:
+Create `.github/workflows/yang-supervisor.yml`. Prefer the GitHub App token so
+comments post as **yang-supervisor[bot]** (with the App avatar) instead of
+`github-actions[bot]`.
+
+Repo secrets:
+
+- `YANG_API_TOKEN` — YangYang API token (`PROVIDER: yangyang`)
+- `YANG_SUPERVISOR_APP_ID` / `YANG_SUPERVISOR_APP_PRIVATE_KEY` — from the
+  [yang-supervisor](https://github.com/apps/yang-supervisor) GitHub App
 
 ```yaml
 name: Yang Supervisor Agent (YSA)
@@ -116,13 +124,26 @@ jobs:
   supervise:
     runs-on: ubuntu-24.04
     steps:
+      - name: Mint yang-supervisor app token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.YANG_SUPERVISOR_APP_ID }}
+          private-key: ${{ secrets.YANG_SUPERVISOR_APP_PRIVATE_KEY }}
+
       - name: yang-supervisor
         uses: YangYang-Research/yang-supervisor@v0.1.0
         with:
           PROVIDER: yangyang
-          API_KEY: ${{ secrets.YANG_API_KEY }}
+          API_KEY: ${{ secrets.YANG_API_TOKEN }}
           MODEL_NAME: auto
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+```
+
+Fallback without the App (`github-actions[bot]`):
+
+```yaml
+GITHUB_TOKEN: ${{ github.token }}
 ```
 
 OpenAI example:
@@ -133,7 +154,7 @@ with:
   API_KEY: ${{ secrets.OPENAI_API_KEY }}
   MODEL_NAME: gpt-5.4
   MODEL_TEMPERATURE: 0.2
-  GITHUB_TOKEN: ${{ github.token }}
+  GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
 ```
 
 ## 💬 Comment shape
