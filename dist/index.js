@@ -39599,6 +39599,9 @@ _Response by **Yang Supervisor Agent (YSA)** — YangYang Organization_`;
 
 
 const MARKER = '<!-- yang-supervisor -->';
+const AI_REVIEW_LABEL = 'ai-review';
+const AI_REVIEW_LABEL_COLOR = '5319E7';
+const AI_REVIEW_LABEL_DESCRIPTION = 'Responded by Yang Supervisor Agent (YSA)';
 
 function parseTemperature(raw) {
   if (!raw) {
@@ -39635,6 +39638,37 @@ async function alreadyReplied(octokit, {owner, repo, issueNumber}) {
     per_page: 100
   });
   return comments.some((comment) => (comment.body || '').includes(MARKER));
+}
+
+async function ensureAiReviewLabel(octokit, {owner, repo}) {
+  try {
+    await octokit.rest.issues.getLabel({
+      owner,
+      repo,
+      name: AI_REVIEW_LABEL
+    });
+  } catch (error) {
+    if (error.status !== 404) {
+      throw error;
+    }
+    await octokit.rest.issues.createLabel({
+      owner,
+      repo,
+      name: AI_REVIEW_LABEL,
+      color: AI_REVIEW_LABEL_COLOR,
+      description: AI_REVIEW_LABEL_DESCRIPTION
+    });
+  }
+}
+
+async function addAiReviewLabel(octokit, {owner, repo, issueNumber}) {
+  await ensureAiReviewLabel(octokit, {owner, repo});
+  await octokit.rest.issues.addLabels({
+    owner,
+    repo,
+    issue_number: issueNumber,
+    labels: [AI_REVIEW_LABEL]
+  });
 }
 
 async function run() {
@@ -39745,6 +39779,15 @@ async function run() {
     });
 
     core.info(`Posted Yang Supervisor response on #${issueNumber}`);
+
+    try {
+      await addAiReviewLabel(octokit, {owner, repo, issueNumber});
+      core.info(`Added label "${AI_REVIEW_LABEL}" on #${issueNumber}`);
+    } catch (labelError) {
+      core.warning(
+        `Failed to add "${AI_REVIEW_LABEL}" label: ${labelError.message}`
+      );
+    }
   } catch (error) {
     core.setFailed(error.message || String(error));
   }

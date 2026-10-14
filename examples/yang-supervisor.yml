@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: yang-supervisor
-        uses: YangYang-Research/yang-supervisor@v0.1.0
+        uses: YangYang-Research/yang-supervisor@v0.1.1
         with:
           PROVIDER: yangyang
           API_KEY: ${{ secrets.YANG_API_TOKEN }}

@@ -117,7 +117,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: yang-supervisor
-        uses: YangYang-Research/yang-supervisor@v0.1.0
+        uses: YangYang-Research/yang-supervisor@v0.1.1
         with:
           PROVIDER: yangyang
           API_KEY: ${{ secrets.YANG_API_TOKEN }}
@@ -161,7 +161,8 @@ Footer marker (for idempotency):
 | Does | Does not |
 |------|----------|
 | First comment on open issue/PR | Close or reopen issues |
-| Suggest labels and next steps | Apply labels or assign people |
+| Suggest labels and next steps | Assign people |
+| Apply `ai-review` after a successful reply | Apply arbitrary suggested labels |
 | Skip bots and duplicate runs | Merge or approve pull requests |
 | Treat ticket text as untrusted | Follow instructions inside the issue/PR body |
 
@@ -196,7 +197,7 @@ Contributions welcome.
 Guidelines:
 
 - Keep the action small and auditable — prefer fixing the shared path over adding special cases
-- Do not auto-close issues, auto-merge PRs, or apply labels without an explicit new input
+- Do not auto-close issues, auto-merge PRs, or apply labels beyond the fixed `ai-review` marker
 - Treat issue/PR content as untrusted in any prompt or logging change
 - Match existing style in `src/` and keep functions small
 
