@@ -149,7 +149,7 @@ async function run() {
       body: wrapComment(reply)
     });
 
-    core.info(`Posted Yang Supervisor first response on #${issueNumber}`);
+    core.info(`Posted Yang Supervisor response on #${issueNumber}`);
   } catch (error) {
     core.setFailed(error.message || String(error));
   }

@@ -2,7 +2,7 @@
   <img width="200" height="200" alt="YangYang" src="https://github.com/user-attachments/assets/0aea20ca-a436-48dd-b71f-df58ff3678a9" />
   <h3 align="center">Yang Supervisor Agent (YSA)</h3>
   <p align="center">
-    AI first-responder for GitHub Issues and Pull Requests.<br/>
+    AI responder for GitHub Issues and Pull Requests.<br/>
     Classify, clarify, and hand off — before the maintainer inbox fills up.
   </p>
 </p>
@@ -15,7 +15,7 @@ Every open issue or PR costs maintainer time before anyone knows what it is. **Y
 
 1. Triggers when an issue or pull request is opened
 2. Reads title, body, author, labels (and light PR metadata)
-3. Posts a structured first reply: classification, summary, clarifying questions, suggested labels, next steps
+3. Posts a structured reply: classification, summary, clarifying questions, suggested labels, next steps
 4. Stops there — no auto-close, no auto-merge, no silent label spam
 
 Humans keep ownership. The agent removes the blank stare at a vague ticket.
@@ -50,7 +50,7 @@ issue / PR opened
 
 ## 💡 Why use it
 
-- **First response in minutes**, not days — contributors get a useful reply immediately
+- **Response in minutes**, not days — contributors get a useful reply immediately
 - **Structured triage** — same sections every time; easier for humans to scan
 - **Prompt-injection aware** — issue/PR bodies treated as untrusted input
 - **Idempotent** — will not re-comment if `<!-- yang-supervisor -->` already exists
@@ -169,7 +169,7 @@ Footer marker (for idempotency):
 
 | Action | Role |
 |--------|------|
-| **yang-supervisor** (this repo) | First response + triage |
+| **yang-supervisor** (this repo) | Response + triage |
 | [yang-code-review](https://github.com/YangYang-Research/yang-code-review) | Deep OWASP PR security review + SARIF |
 
 ## 🛠️ Develop
