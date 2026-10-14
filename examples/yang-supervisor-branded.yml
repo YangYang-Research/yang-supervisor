@@ -1,12 +1,13 @@
-# Posts comments as yang-supervisor[bot] (GitHub App avatar/name)
-# instead of github-actions[bot].
+# INTERNAL ONLY — YangYang-Research org repos.
 #
-# Prerequisites:
-# 1. Create/install the yang-supervisor GitHub App on the org/repo
-# 2. Repo secrets:
-#    - YANG_SUPERVISOR_APP_ID
-#    - YANG_SUPERVISOR_APP_PRIVATE_KEY
-#    - YANG_API_TOKEN (or YANG_API_KEY) for the yangyang provider
+# Do NOT publish APP_ID / PRIVATE_KEY to Marketplace users.
+# Public setup: examples/yang-supervisor.yml (github.token → github-actions[bot]).
+#
+# This workflow mints an installation token so comments post as
+# yang-supervisor[bot]. Requires org secrets:
+#   - YANG_SUPERVISOR_APP_ID
+#   - YANG_SUPERVISOR_APP_PRIVATE_KEY
+#   - YANG_API_TOKEN
 
 name: Yang Supervisor Agent (YSA)
 
