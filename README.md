@@ -9,7 +9,7 @@
 
 ---
 
-## What it does
+## ✨ What it does
 
 Every open issue or PR costs maintainer time before anyone knows what it is. **Yang Supervisor** sits at the edge of that queue:
 
@@ -22,7 +22,7 @@ Humans keep ownership. The agent removes the blank stare at a vague ticket.
 
 For deep OWASP-aligned PR security review (SARIF, findings, remediations), pair with [`yang-code-review`](https://github.com/YangYang-Research/yang-code-review).
 
-## Supervision flow
+## 🔄 Supervision flow
 
 ```
 issue / PR opened
@@ -48,7 +48,7 @@ issue / PR opened
 | Issue | type, missing repro, labels, who should act | human triage / docs |
 | Pull request | intent, review focus, obvious risk notes | [`yang-code-review`](https://github.com/YangYang-Research/yang-code-review) for security depth |
 
-## Why use it
+## 💡 Why use it
 
 - **First response in minutes**, not days — contributors get a useful reply immediately
 - **Structured triage** — same sections every time; easier for humans to scan
@@ -57,14 +57,14 @@ issue / PR opened
 - **Bot noise filtered** — skips `dependabot[bot]` and other `*[bot]` authors
 - **Bring your own model** — OpenAI, Anthropic, Google, NVIDIA, OpenRouter, or YangYang Inference
 
-## Usage
+## 🚀 Usage
 
 1. Create an API key with a supported provider (or a [YangYang](https://yyng.icu) API token).
 2. Store it as a repository secret (e.g. `YANG_API_KEY` or `OPENAI_API_KEY`).
 3. Add the workflow below.
 4. Open a test issue — YSA should comment first.
 
-## Providers supported
+## 🤖 Providers supported
 
 Provider base URLs are hardcoded in the action:
 
@@ -77,12 +77,12 @@ Provider base URLs are hardcoded in the action:
 | `openrouter` | `https://openrouter.ai/api/v1` | [Models](https://openrouter.ai/models) |
 | `yangyang` | `https://inference.yyng.icu/v1/agents` (`agent=yang-supervisor`) | `auto` |
 
-## Required secrets
+## 🔐 Required secrets
 
 - `API_KEY` — key for the selected provider (YangYang token when using `yangyang`)
 - `GITHUB_TOKEN` — GitHub token used to read the event and post comments (usually `${{ github.token }}`)
 
-## Inputs
+## ⚙️ Inputs
 
 | Name | Required | Description |
 |------|----------|-------------|
@@ -94,7 +94,7 @@ Provider base URLs are hardcoded in the action:
 | `GITHUB_TOKEN` | yes | Token for issue/PR comments |
 | `MODE` | no | `auto` (default), `issue`, or `pull_request` |
 
-## Usage example
+## 📦 Usage example
 
 Create `.github/workflows/yang-supervisor.yml`:
 
@@ -136,7 +136,7 @@ with:
   GITHUB_TOKEN: ${{ github.token }}
 ```
 
-## Comment shape
+## 💬 Comment shape
 
 YSA posts markdown with fixed sections:
 
@@ -153,7 +153,7 @@ Footer marker (for idempotency):
 <!-- yang-supervisor -->
 ```
 
-## Guardrails
+## 🛡️ Guardrails
 
 | Does | Does not |
 |------|----------|
@@ -162,14 +162,14 @@ Footer marker (for idempotency):
 | Skip bots and duplicate runs | Merge or approve pull requests |
 | Treat ticket text as untrusted | Follow instructions inside the issue/PR body |
 
-## Recommended stack
+## 🧩 Recommended stack
 
 | Action | Role |
 |--------|------|
 | **yang-supervisor** (this repo) | First response + triage |
 | [yang-code-review](https://github.com/YangYang-Research/yang-code-review) | Deep OWASP PR security review + SARIF |
 
-## Develop
+## 🛠️ Develop
 
 ```bash
 npm install
@@ -179,6 +179,26 @@ npm run build
 
 Commit `dist/` after source changes — the composite action runs `dist/index.js`.
 
-## License
+## 🤝 Contributing
+
+Contributions welcome.
+
+1. Fork the repo and create a branch from `main`
+2. Install deps: `npm install`
+3. Make changes under `src/`
+4. Run `npm test` and `npm run build`
+5. Commit both source and updated `dist/`
+6. Open a pull request with a short description of **why**
+
+Guidelines:
+
+- Keep the action small and auditable — prefer fixing the shared path over adding special cases
+- Do not auto-close issues, auto-merge PRs, or apply labels without an explicit new input
+- Treat issue/PR content as untrusted in any prompt or logging change
+- Match existing style in `src/` and keep functions small
+
+Bug reports and feature ideas: open an [issue](https://github.com/YangYang-Research/yang-supervisor/issues). Security-sensitive reports: prefer a private channel to the YangYang maintainers when possible.
+
+## 📄 License
 
 MIT — YangYang Research
