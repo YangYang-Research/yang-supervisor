@@ -1,0 +1,52 @@
+name: yang-supervisor
+description: Yang Supervisor Agent (YSA) — first-response triage for Issues and Pull Requests
+author: yangyang-organization
+
+inputs:
+  PROVIDER:
+    description: AI provider (openai, anthropic, google, nvidia, openrouter, or yangyang)
+    required: true
+  API_KEY:
+    description: API key for the selected provider
+    required: true
+  MODEL_NAME:
+    description: Provider model identifier. yangyang uses auto
+    required: true
+  MODEL_TEMPERATURE:
+    description: Optional model temperature between 0 and 1
+    required: false
+  MAX_TOKENS:
+    description: Maximum number of output tokens
+    required: false
+    default: "2048"
+  GITHUB_TOKEN:
+    description: GitHub token for reading events and posting comments
+    required: true
+  MODE:
+    description: auto | issue | pull_request
+    required: false
+    default: "auto"
+
+branding:
+  icon: "zap"
+  color: "purple"
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+      with:
+        fetch-depth: 1
+
+    - id: supervise
+      shell: bash
+      run: node "$GITHUB_ACTION_PATH/dist/index.js"
+      env:
+        INPUT_PROVIDER: ${{ inputs.PROVIDER }}
+        INPUT_API_KEY: ${{ inputs.API_KEY }}
+        INPUT_MODEL_NAME: ${{ inputs.MODEL_NAME }}
+        INPUT_MODEL_TEMPERATURE: ${{ inputs.MODEL_TEMPERATURE }}
+        INPUT_MAX_TOKENS: ${{ inputs.MAX_TOKENS }}
+        INPUT_GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        INPUT_MODE: ${{ inputs.MODE }}
