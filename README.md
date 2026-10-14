@@ -77,8 +77,6 @@ Provider base URLs are hardcoded in the action:
 | `openrouter` | `https://openrouter.ai/api/v1` | [Models](https://openrouter.ai/models) |
 | `yangyang` | `https://inference.yyng.icu/v1/agents` (`agent=yang-supervisor`) | `auto` |
 
-With `PROVIDER: yangyang`, the action calls YangYang Inference and uses the hosted **yang-supervisor** agent instruction (classification policy, hard rules, output template).
-
 ## Required secrets
 
 - `API_KEY` — key for the selected provider (YangYang token when using `yangyang`)
