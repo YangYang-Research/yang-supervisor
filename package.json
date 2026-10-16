@@ -1,7 +1,7 @@
 {
-  "name": "yang-supervisor",
-  "version": "0.1.1",
-  "description": "Yang Supervisor Agent (YSA) for GitHub Issues and Pull Requests",
+  "name": "yang-git-assistant",
+  "version": "0.2.0",
+  "description": "Yang Git Assistant (YGA) for GitHub Issues and Pull Requests",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {

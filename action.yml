@@ -1,5 +1,5 @@
-name: yang-supervisor
-description: Yang Supervisor Agent (YSA) — response triage for Issues and Pull Requests
+name: yang-git-assistant
+description: Yang Git Assistant (YGA) — response triage for Issues and Pull Requests
 author: yangyang-organization
 
 inputs:

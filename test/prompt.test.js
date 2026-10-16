@@ -15,8 +15,8 @@ test('buildSupervisorMessages includes classification sections', () => {
   assert.match(messages[1].content, /How to hook RN/);
 });
 
-test('wrapComment adds yang-supervisor marker', () => {
+test('wrapComment adds yang-git-assistant marker', () => {
   const body = wrapComment('## Summary\nHello');
-  assert.match(body, /<!-- yang-supervisor -->/);
-  assert.match(body, /Yang Supervisor Agent/);
+  assert.match(body, /<!-- yang-git-assistant -->/);
+  assert.match(body, /Yang Git Assistant/);
 });

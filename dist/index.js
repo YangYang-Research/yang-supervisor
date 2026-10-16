@@ -39329,7 +39329,7 @@ function resolveProviderConfig({provider, apiKey}) {
 function createOpenAIRequest(config, {model, temperature, maxTokens, messages, agent}) {
   const headers = {
     'content-type': 'application/json',
-    'user-agent': 'github-actions/yang-supervisor'
+    'user-agent': 'github-actions/yang-git-assistant'
   };
   if (config.apiKey && config.name === 'yangyang') {
     headers['x-yang-api-token'] = config.apiKey;
@@ -39337,7 +39337,7 @@ function createOpenAIRequest(config, {model, temperature, maxTokens, messages, a
     headers.authorization = `Bearer ${config.apiKey}`;
   }
   if (config.name === 'openrouter') {
-    headers['x-openrouter-title'] = 'Yang Supervisor';
+    headers['x-openrouter-title'] = 'Yang Git Assistant';
   }
 
   const body = {
@@ -39354,7 +39354,7 @@ function createOpenAIRequest(config, {model, temperature, maxTokens, messages, a
     body.max_tokens = maxTokens;
   }
   if (config.name === 'yangyang') {
-    body.agent = agent || 'yang-supervisor';
+    body.agent = agent || 'yang-git-assistant';
   }
 
   const path = config.name === 'yangyang' ? '/agents' : '/chat/completions';
@@ -39386,7 +39386,7 @@ function createAnthropicRequest(config, {model, temperature, maxTokens, messages
       'content-type': 'application/json',
       'x-api-key': config.apiKey,
       'anthropic-version': '2023-06-01',
-      'user-agent': 'github-actions/yang-supervisor'
+      'user-agent': 'github-actions/yang-git-assistant'
     },
     body
   };
@@ -39419,7 +39419,7 @@ function createGoogleRequest(config, {model, temperature, maxTokens, messages}) 
     url: `${config.baseUrl}/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(config.apiKey)}`,
     headers: {
       'content-type': 'application/json',
-      'user-agent': 'github-actions/yang-supervisor'
+      'user-agent': 'github-actions/yang-git-assistant'
     },
     body
   };
@@ -39544,7 +39544,7 @@ async function requestCompletion({
 }
 
 ;// CONCATENATED MODULE: ./src/prompt.js
-const FALLBACK_SYSTEM = `You are Yang Supervisor, the response agent for GitHub Issues and Pull Requests.
+const FALLBACK_SYSTEM = `You are Yang Git Assistant, the response agent for GitHub Issues and Pull Requests.
 
 Classify the item, summarize it, ask clarifying questions when needed, suggest labels, and propose next steps for maintainers.
 Do not close, merge, or claim work is done.
@@ -39588,8 +39588,8 @@ function wrapComment(markdown) {
   return `${markdown.trim()}
 
 ---
-<!-- yang-supervisor -->
-_Response by **Yang Supervisor Agent (YSA)** — YangYang Organization_`;
+<!-- yang-git-assistant -->
+_Response by **Yang Git Assistant (YGA)** — YangYang Organization_`;
 }
 
 ;// CONCATENATED MODULE: ./src/index.js
@@ -39598,10 +39598,10 @@ _Response by **Yang Supervisor Agent (YSA)** — YangYang Organization_`;
 
 
 
-const MARKER = '<!-- yang-supervisor -->';
+const MARKER = '<!-- yang-git-assistant -->';
 const AI_REVIEW_LABEL = 'ai-review';
 const AI_REVIEW_LABEL_COLOR = '5319E7';
-const AI_REVIEW_LABEL_DESCRIPTION = 'Responded by Yang Supervisor Agent (YSA)';
+const AI_REVIEW_LABEL_DESCRIPTION = 'Responded by Yang Git Assistant (YGA)';
 
 function parseTemperature(raw) {
   if (!raw) {
@@ -39740,7 +39740,7 @@ async function run() {
     }
 
     if (await alreadyReplied(octokit, {owner, repo, issueNumber})) {
-      core.info(`Yang Supervisor already commented on #${issueNumber}; skip.`);
+      core.info(`Yang Git Assistant already commented on #${issueNumber}; skip.`);
       return;
     }
 
@@ -39759,7 +39759,7 @@ async function run() {
       temperature: modelTemperature,
       maxTokens,
       messages,
-      agent: 'yang-supervisor',
+      agent: 'yang-git-assistant',
       onRetry: (attempt, maxAttempts, error) => {
         core.warning(
           `Retry ${attempt}/${maxAttempts} after: ${error.message || error}`
@@ -39778,7 +39778,7 @@ async function run() {
       body: wrapComment(reply)
     });
 
-    core.info(`Posted Yang Supervisor response on #${issueNumber}`);
+    core.info(`Posted Yang Git Assistant response on #${issueNumber}`);
 
     try {
       await addAiReviewLabel(octokit, {owner, repo, issueNumber});

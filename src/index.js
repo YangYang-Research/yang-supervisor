@@ -3,10 +3,10 @@ import * as github from '@actions/github';
 import {requestCompletion, resolveProviderConfig} from './providers.js';
 import {buildSupervisorMessages, wrapComment} from './prompt.js';
 
-const MARKER = '<!-- yang-supervisor -->';
+const MARKER = '<!-- yang-git-assistant -->';
 const AI_REVIEW_LABEL = 'ai-review';
 const AI_REVIEW_LABEL_COLOR = '5319E7';
-const AI_REVIEW_LABEL_DESCRIPTION = 'Responded by Yang Supervisor Agent (YSA)';
+const AI_REVIEW_LABEL_DESCRIPTION = 'Responded by Yang Git Assistant (YGA)';
 
 function parseTemperature(raw) {
   if (!raw) {
@@ -145,7 +145,7 @@ async function run() {
     }
 
     if (await alreadyReplied(octokit, {owner, repo, issueNumber})) {
-      core.info(`Yang Supervisor already commented on #${issueNumber}; skip.`);
+      core.info(`Yang Git Assistant already commented on #${issueNumber}; skip.`);
       return;
     }
 
@@ -164,7 +164,7 @@ async function run() {
       temperature: modelTemperature,
       maxTokens,
       messages,
-      agent: 'yang-supervisor',
+      agent: 'yang-git-assistant',
       onRetry: (attempt, maxAttempts, error) => {
         core.warning(
           `Retry ${attempt}/${maxAttempts} after: ${error.message || error}`
@@ -183,7 +183,7 @@ async function run() {
       body: wrapComment(reply)
     });
 
-    core.info(`Posted Yang Supervisor response on #${issueNumber}`);
+    core.info(`Posted Yang Git Assistant response on #${issueNumber}`);
 
     try {
       await addAiReviewLabel(octokit, {owner, repo, issueNumber});
